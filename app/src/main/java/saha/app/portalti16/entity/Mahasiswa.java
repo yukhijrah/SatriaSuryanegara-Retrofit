@@ -1,12 +1,22 @@
 package saha.app.portalti16.entity;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
 
-public class Mahasiswa implements Serializable{
+@Entity(tableName = "mahasiswa")
+public class Mahasiswa implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
     private String name;
     private String nim;
-    private int id;
+
+    public int getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -16,8 +26,8 @@ public class Mahasiswa implements Serializable{
         return nim;
     }
 
-    public int getId() {
-        return id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {

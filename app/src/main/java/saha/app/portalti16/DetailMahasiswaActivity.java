@@ -24,6 +24,7 @@ public class DetailMahasiswaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_mahasiswa);
+
         //casting untuk semua view
         edtName = (EditText) findViewById(R.id.edt_name);
         edtNim = (EditText) findViewById(R.id.edt_nim);
@@ -42,9 +43,8 @@ public class DetailMahasiswaActivity extends AppCompatActivity {
                             addNewMahasiswa(name, nim);
                         } else {
                             Toast.makeText(DetailMahasiswaActivity.this,
-                                    "Maaf nama dan nim tidak boleh kosong",
-                                    Toast.LENGTH_SHORT).show();
-
+                                    "maaf, nama dan nim tidak boleh kosong.",
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -77,19 +77,19 @@ public class DetailMahasiswaActivity extends AppCompatActivity {
         services.updateMahasiswa(mahasiswaId, name, nim).enqueue(new Callback<Mahasiswa>() {
             @Override
             public void onResponse(Call<Mahasiswa> call, Response<Mahasiswa> response) {
-                if(response.isSuccessful()) {
-                    Toast.makeText( DetailMahasiswaActivity.this,
-                            "update berhasil",
+                if (response.isSuccessful()) {
+                    Toast.makeText(DetailMahasiswaActivity.this,
+                            "update berhasil!",
                             Toast.LENGTH_LONG).show();
                     finish();
                 } else {
-                    onErrorMahasiswa();
+                    onErrorAddMahasiswa();
                 }
             }
 
             @Override
             public void onFailure(Call<Mahasiswa> call, Throwable t) {
-                onErrorMahasiswa();
+                onErrorAddMahasiswa();
             }
         });
     }
@@ -97,27 +97,29 @@ public class DetailMahasiswaActivity extends AppCompatActivity {
     private void addNewMahasiswa(String name, String nim) {
         Routes services = Network.request().create(Routes.class);
 
-        //lalu lakukan post terhadap post pada mahasiswa baru terhadap API /add.php
+        //lalu, kita lakukan post terhadap data mahasiswa baru dari API /add.php
         services.postMahasiswa(name, nim).enqueue(new Callback<Mahasiswa>() {
             @Override
             public void onResponse(Call<Mahasiswa> call, Response<Mahasiswa> response) {
                 if (response.isSuccessful()) {
-                    finish();//kembalik ke aktifitas sebelumnya
+                    //ketika post nya berhasil, maka akan kembali ke mainActivity
+                    finish(); //ini akan destroy si DetailMahasiswaActivity()
                 } else {
-                    onErrorMahasiswa();
+                    onErrorAddMahasiswa();
                 }
             }
 
             @Override
             public void onFailure(Call<Mahasiswa> call, Throwable t) {
-                onErrorMahasiswa();
+                onErrorAddMahasiswa();
             }
         });
-
     }
-    private void onErrorMahasiswa() {
+
+    private void onErrorAddMahasiswa() {
         Toast.makeText(DetailMahasiswaActivity.this,
                 "Maaf, terjadi kesalahan",
-                Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_LONG).show();
     }
+
 }

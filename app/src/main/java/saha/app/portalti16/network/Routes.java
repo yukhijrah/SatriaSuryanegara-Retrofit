@@ -14,14 +14,16 @@ import saha.app.portalti16.entity.Mahasiswa;
 public interface Routes {
 
     /**
-     * Mendefinisikan root dari web services yang disediakan
-     * Jika dideskripsikan berarti:
-     * https://ti16.herokuapp.com/list.php
-     * */
-
+     * mendefinisikan route dari web services yang disediakan
+     */
     @GET("dev/list_mahasiswa")
     Call<DaftarMahasiswa> getMahasiswa();
 
+    /**
+     * untuk melakukan post data mahasiswa baru
+     * @param name
+     * @param nim
+     */
     @POST("dev/insert_mahasiswa")
     @FormUrlEncoded
     Call<Mahasiswa> postMahasiswa(
@@ -29,11 +31,23 @@ public interface Routes {
             @Field("nim") String nim
     );
 
+    /**
+     * untuk menghapus mahasiswa berdasarkan id
+     * @param mhsId
+     * @return
+     */
     @DELETE("mahasiswatest/{mhsId}")
     Call<Mahasiswa> deleteMahasiswa(
             @Path("mhsId") String mhsId
     );
 
+    /**
+     * untuk memperbaharui data mahasiswa
+     * @param mhsId
+     * @param name
+     * @param nim
+     * @return
+     */
     @PUT("mahasiswatest/{mhsId}")
     @FormUrlEncoded
     Call<Mahasiswa> updateMahasiswa(
@@ -41,4 +55,5 @@ public interface Routes {
             @Field("name") String name,
             @Field("nim") String nim
     );
+
 }
